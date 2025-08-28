@@ -128,7 +128,7 @@ body {
 .hero.animated-bg {
   animation: slide-bg-rtl 18s linear infinite !important;
   background-repeat: repeat-x;
-  background-size: 100% auto;
+  background-size: auto 100%;
 }
 @media (max-width: 600px) {
   .hero.animated-bg {
