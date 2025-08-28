@@ -11,18 +11,37 @@
   function addItem(item){
     const items = readCart();
     const existing = items.find(x => x.id === item.id && x.variant === item.variant);
-    if (existing) existing.qty += item.qty || 1; else items.push({ ...item, qty: item.qty || 1 });
-    writeCart(items); updateCartBadge();
+    if (existing) existing.qty += item.qty || 1;
+    else items.push({ ...item, qty: item.qty || 1 });
+    writeCart(items);
+    updateCartDetails();
   }
-  function removeItem(id, variant){ writeCart(readCart().filter(x => !(x.id === id && x.variant === variant))); updateCartBadge(); }
-  function setQty(id, variant, qty){ const items = readCart(); const it = items.find(x => x.id === id && x.variant === variant); if (it){ it.qty = Math.max(1, qty|0); } writeCart(items); updateCartBadge(); }
-  function clearCart(){ writeCart([]); updateCartBadge(); }
 
-  function updateCartBadge(){
+  function removeItem(id, variant){
+    writeCart(readCart().filter(x => !(x.id === id && x.variant === variant)));
+    updateCartDetails();
+  }
+
+  function setQty(id, variant, qty){
+    const items = readCart();
+    const it = items.find(x => x.id === id && x.variant === variant);
+    if (it){ it.qty = Math.max(1, qty|0); }
+    writeCart(items);
+    updateCartDetails();
+  }
+
+  function clearCart(){
+    writeCart([]);
+    updateCartDetails();
+  }
+
+  function updateCartDetails(){
     const items = readCart();
     const total = items.reduce((s,i)=>s+i.qty,0);
-    const el = document.getElementById('cart-count');
-    if (el) el.textContent = String(total);
+    const cartCountElement = document.getElementById('cart-count');
+    const totalItemsDisplay = document.getElementById('total-items');
+    if (cartCountElement) cartCountElement.textContent = String(total);
+    if (totalItemsDisplay) totalItemsDisplay.textContent = String(total);
   }
 
   function bindAddToCart(){
@@ -38,7 +57,10 @@
         addItem({ id, name, price, variant, qty: 1 });
         this.textContent = 'Added!';
         this.classList.add('added');
-        setTimeout(()=>{ this.textContent = this.getAttribute('aria-label')?.replace('Add ','') || 'Add to Cart'; this.classList.remove('added'); }, 1500);
+        setTimeout(()=>{
+          this.textContent = this.getAttribute('aria-label')?.replace('Add ','') || 'Add to Cart';
+          this.classList.remove('added');
+        }, 1500);
       });
     });
   }
@@ -138,7 +160,7 @@
   }
 
   function init(){
-    updateCartBadge();
+    updateCartDetails();
     bindAddToCart();
     bindQuickView();
     bindSorting();
@@ -148,85 +170,3 @@
 
   document.addEventListener('DOMContentLoaded', init);
 })();
-
-(function() {
-  "use strict";
-
-  const CART_STORAGE_KEY = "docushop_cart_items";
-
-  function readCart() {
-    try { return JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]"); } catch { return []; }
-  }
-
-  function writeCart(items) {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
-  }
-
-  function addItem(item) {
-    const items = readCart();
-    const existing = items.find(x => x.id === item.id && x.variant === item.variant);
-    if (existing) {
-      existing.qty += item.qty || 1;
-    } else {
-      items.push({ ...item, qty: item.qty || 1 });
-    }
-    writeCart(items);
-    updateCartBadge();
-    updateCartDetails(item.id);
-  }
-
-  function updateCartDetails(productId) {
-    const items = readCart();
-    const totalItems = items.reduce((sum, item) => sum + item.qty, 0); // Total items in cart
-    const cartCountElement = document.getElementById('cart-count');
-    const totalItemsDisplay = document.getElementById('total-items');
-
-    if (cartCountElement) cartCountElement.textContent = String(totalItems); // Update cart badge
-    if (totalItemsDisplay) totalItemsDisplay.textContent = String(totalItems); // Update checkout total
-  }
-
-  function updateCartBadge() {
-    const items = readCart();
-    const total = items.reduce((s, i) => s + i.qty, 0);
-    const el = document.getElementById('cart-count');
-    if (el) el.textContent = String(total);
-  }
-
-  function bindAddToCart() {
-    document.querySelectorAll('.add-to-cart-btn, .btn.add, .add-to-cart').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const card = this.closest('[data-product-id], .product, .product-card');
-        const id = this.getAttribute('data-product-id') || card?.querySelector('[data-product-id]')?.getAttribute('data-product-id');
-        const name = card?.querySelector('h3')?.textContent || 'Item';
-        const priceText = card?.querySelector('.price, .current')?.textContent || '0';
-        const price = Number(String(priceText).replace(/[^0-9.]/g, '')) || 0;
-        const variant = (card?.querySelector('select[data-variant]')?.value || 'default');
-        addItem({ id, name, price, variant, qty: 1 });
-
-        this.textContent = 'Added!';
-        this.classList.add('added');
-        setTimeout(() => {
-          this.textContent = this.getAttribute('aria-label')?.replace('Add ', '') || 'Add to Cart';
-          this.classList.remove('added');
-        }, 1500);
-      });
-    });
-  }
-
-  function init() {
-    updateCartBadge();
-    bindAddToCart();
-  }
-
-  document.addEventListener('DOMContentLoaded', init);
-})();
-function updateCartDetails(productId) {
-    const items = readCart();
-    const totalItems = items.reduce((sum, item) => sum + item.qty, 0); // Total items in cart
-    const cartCountElement = document.getElementById('cart-count');
-    const totalItemsDisplay = document.getElementById('total-items');
-
-    if (cartCountElement) cartCountElement.textContent = String(totalItems); // Update cart badge
-    if (totalItemsDisplay) totalItemsDisplay.textContent = String(totalItems); // Update checkout total
-}
