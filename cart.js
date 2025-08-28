@@ -170,3 +170,11 @@
 
   document.addEventListener('DOMContentLoaded', init);
 })();
+// Automatically clear cart and reset cart badge/count on page load
+document.addEventListener('DOMContentLoaded', function() {
+  localStorage.setItem('docushop_cart_items', '[]');
+  const cartCountElement = document.getElementById('cart-count');
+  const totalItemsDisplay = document.getElementById('total-items');
+  if (cartCountElement) cartCountElement.textContent = '0';
+  if (totalItemsDisplay) totalItemsDisplay.textContent = '0';
+});
