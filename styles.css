@@ -86,7 +86,7 @@ body {
   justify-content: center;
   color: #fff;
   /* Replace with your image path */
-  background: url('images/imagebackground.jpg') center center/cover no-repeat;
+  background: url('imagebackground.jpg') center center/cover no-repeat;
   /* Animation for sliding background right-to-left */
   animation: slide-bg-rtl 18s linear infinite;
   overflow: hidden;
