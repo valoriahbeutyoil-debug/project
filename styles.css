@@ -78,47 +78,52 @@ body {
   100% { transform: scale(1); }
 }
 
-/* Hero Section Animations */
-.animated-bg {
+.hero.animated-bg {
   position: relative;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  /* Replace with your image path */
+  background: url('images/hero-bg.jpg') center center/cover no-repeat;
+  /* Animation for sliding background right-to-left */
+  animation: slide-bg-rtl 18s linear infinite;
   overflow: hidden;
 }
 
-.animated-bg::before {
-  content: '';
+@keyframes slide-bg-rtl {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Optional: dark overlay for readability */
+.hero.animated-bg::before {
+  content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(-45deg, #6b21a8, #1a1a1a, #b8860b, #581c87);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
-  opacity: 0.9;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
   z-index: 0;
 }
 
 .hero-content {
   position: relative;
   z-index: 1;
+  text-align: center;
 }
 
-.fade-in {
-  opacity: 0;
-  animation: fadeIn 1s ease-in forwards;
+/* Responsive adjustments (optional) */
+@media (max-width: 600px) {
+  .hero.animated-bg {
+    min-height: 220px;
+    background-position: center center;
+    font-size: 90%;
+  }
 }
-
-.fade-in-delay {
-  opacity: 0;
-  animation: fadeIn 1s ease-in forwards 0.5s;
-}
-
-.pulse {
-  animation: pulse 2s infinite;
-}
-
-.container { width: min(1100px, 92%); margin-inline: auto; }
-
 /* Document Section */
 .document-section {
     position: relative;
