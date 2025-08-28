@@ -222,38 +222,28 @@ body {
 
 @media (max-width: 768px) {
   .document-section .content-wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;        /* Centers items horizontally */
-    gap: 8px;                  /* Adds space between image and text */
-    padding: 8px;       /* Optional: spacing around section */
-  }
- .document-section .text-content,
-  .document-section .image-content {
-    width: 50%;                  /* Each takes half */
-    min-width: 120px;            /* Prevents too small */
-    box-sizing: border-box;
-  }
-  .document-section .text-content {
-    padding: 8px;
-    font-size: 0.98rem;
-    display: flex;
     flex-direction: column;
-    justify-content: center;
-    text-align: left;            /* Or center if you prefer */
-  }
-  .document-section .image-content {
-    display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 8px;
+    gap: 16px;
+    padding: 12px;
+  }
+  .document-section .text-content,
+  .document-section .image-content {
+    width: 100%;
+    max-width: 95vw;
+    padding: 0;
   }
   .document-section .image-content img {
-    width: 100%;
-    max-width: 140px;            /* Adjust as needed for visual balance */
+    width: 90vw;
+    max-width: 320px;
     height: auto;
     object-fit: contain;
     border-radius: 8px;
+  }
+  .document-section .text-content {
+    text-align: center;
+    font-size: 1rem;
+    padding: 8px;
   }
 }
 }.sr-only {
