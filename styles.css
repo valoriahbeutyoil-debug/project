@@ -130,6 +130,20 @@ body {
   background-repeat: repeat-x;
   background-size: auto 100%;
 }
+@media (max-width: 600px) {
+  .hero.animated-bg {
+    min-height: 220px;
+    font-size: 90%;
+    /* Keep animation and background properties here if needed */
+  }
+}
+
+/* Optional: for laptops */
+@media (min-width: 601px) and (max-width: 1200px) {
+  .hero.animated-bg {
+    /* Ensure animation and background properties are not removed or changed */
+  }
+}
 /* Document Section */
 .document-section {
     position: relative;
