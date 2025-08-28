@@ -86,7 +86,8 @@ body {
   justify-content: center;
   color: #fff;
   /* Replace with your image path */
-  background: url('imagebackground.jpg') center center/cover no-repeat;
+  background: url('imagebackground.jpg') repeat-x center;
+  background-size: auto 100%;
   /* Animation for sliding background right-to-left */
   animation: slide-bg-rtl 18s linear infinite;
   overflow: hidden;
@@ -123,6 +124,11 @@ body {
     background-position: center center;
     font-size: 90%;
   }
+}
+.hero.animated-bg {
+  animation: slide-bg-rtl 18s linear infinite !important;
+  background-repeat: repeat-x;
+  background-size: auto 100%;
 }
 /* Document Section */
 .document-section {
